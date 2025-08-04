@@ -8,6 +8,14 @@ A lightweight, fast, and intuitive web application that allows users to connect 
 - **Natural Language to SQL**: Enter plain English instructions to generate SQL queries. (Currently a placeholder).
 - **Three-Panel UI**: A clean, efficient layout for exploring schema, writing prompts, and viewing generated SQL.
 
+## Security
+
+We understand that connecting your database to an LLM raises security concerns. Here's how we address them:
+
+- **We only send schema, not data:** When you connect your database, we only send the table and column names (the schema) to the LLM. We never send your actual data.
+- **You have full control:** You can choose which tables and columns are exposed to the LLM. This allows you to hide sensitive information.
+- **Your credentials are safe:** We never store your database credentials. They are only used to connect to your database and are discarded immediately after.
+
 ## Tech Stack
 
 - **Backend**: Python, FastAPI, SQLAlchemy

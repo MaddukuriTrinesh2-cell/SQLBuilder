@@ -1,20 +1,32 @@
 'use client';
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useState } from 'react';
+import { Clipboard, Check } from 'lucide-react';
 
 interface SQLOutputProps {
   sql: string;
 }
 
 export default function SQLOutput({ sql }: SQLOutputProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(sql);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="bg-panel border border-border rounded-xl h-full p-4 flex flex-col">
-      <h2 className="text-base font-semibold mb-4 text-text-primary">Generated SQL</h2>
-      <div className="flex-grow rounded-lg overflow-hidden">
-        <SyntaxHighlighter language="sql" style={atomDark} customStyle={{ background: '#1A1A1A', height: '100%', margin: 0, padding: '1rem' }}>
-          {sql}
-        </SyntaxHighlighter>
+    <div className="bg-panel border border-border rounded-xl h-full flex flex-col">
+      <div className="flex justify-between items-center p-3 border-b border-border">
+        <h3 className="font-semibold text-sm text-foreground">Generated SQL</h3>
+        <button onClick={handleCopy} className="text-sm flex items-center text-gray-400 hover:text-white disabled:text-gray-500 font-sans" disabled={!sql || sql.startsWith('--')}>
+          {copied ? <Check className="h-4 w-4 mr-1 text-green-500" /> : <Clipboard className="h-4 w-4 mr-1" />}
+          {copied ? 'Copied!' : 'Copy'}
+        </button>
+      </div>
+      <div className="p-4 overflow-auto h-full bg-secondary/20 rounded-b-xl">
+        <pre className="text-sm text-gray-500 whitespace-pre-wrap"><code>{sql}</code></pre>
       </div>
     </div>
   );

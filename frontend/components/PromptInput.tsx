@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 
 interface PromptInputProps {
   onSubmit: (prompt: string) => void;
@@ -12,14 +13,26 @@ export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(prompt);
+    if (prompt.trim()) {
+      onSubmit(prompt);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-dark-panel p-4 rounded-lg">
-      <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} className="w-full h-24 p-2 bg-dark-bg border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Show me all employees in the Engineering department" />
-      <button type="submit" disabled={isLoading} className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-500">
-        {isLoading ? 'Generating...' : 'Generate SQL'}
+    <form onSubmit={handleSubmit} className="relative font-sans">
+      <textarea
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        placeholder="Enter a natural language query... e.g., 'Show me all customers from London with more than 3 orders.'"
+        className="w-full h-28 p-4 pr-16 bg-panel border border-border rounded-xl text-foreground placeholder-gray-500 focus:ring-2 focus:ring-primary resize-none"
+        disabled={isLoading}
+      />
+      <button 
+        type="submit" 
+        disabled={isLoading || !prompt.trim()}
+        className="absolute top-1/2 right-4 -translate-y-1/2 p-2 bg-primary rounded-full text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowRight className="h-5 w-5" />}
       </button>
     </form>
   );

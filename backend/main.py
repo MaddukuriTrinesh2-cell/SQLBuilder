@@ -1,12 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import sqlite3
+from database import get_db_schema
 
 app = FastAPI()
 
 # --- CORS Configuration ---
-# Allow requests from our Next.js frontend
 origins = [
     "http://localhost:3000",
 ]
@@ -23,34 +22,32 @@ app.add_middleware(
 class PromptRequest(BaseModel):
     prompt: str
 
-# --- Helper Functions ---
-def get_db_schema():
-    """Connects to the SQLite DB and fetches the schema."""
-    schema = {"tables": []}
-    try:
-        # Use a `with` statement for robust connection handling
-        with sqlite3.connect("database.db") as conn:
-            cursor = conn.cursor()
-            
-            # Get table names, filtering out internal sqlite tables
-            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-            tables = [row[0] for row in cursor.fetchall() if not row[0].startswith('sqlite_')]
-            
-            for table_name in tables:
-                cursor.execute(f"PRAGMA table_info({table_name});")
-                columns = [{"name": row[1], "type": row[2]} for row in cursor.fetchall()]
-                schema["tables"].append({"name": table_name, "columns": columns})
-    except sqlite3.Error as e:
-        print(f"Database error: {e}")
-        # In a real app, you might want to return a proper HTTP error
-        return {"error": str(e), "tables": []}
-    return schema
+class DBDetails(BaseModel):
+    db_type: str
+    username: str
+    password: str
+    host: str
+    port: str
+    db_name: str
 
 # --- API Endpoints ---
-@app.get("/api/schema")
-async def schema():
-    """Returns the database schema."""
-    return get_db_schema()
+@app.post("/api/connect")
+def connect_to_db(details: DBDetails):
+    """
+    Connects to the specified database and returns its schema.
+    """
+    schema = get_db_schema(
+        db_type=details.db_type,
+        username=details.username,
+        password=details.password,
+        host=details.host,
+        port=details.port,
+        db_name=details.db_name,
+    )
+    if schema is not None:
+        return {"status": "success", "schema": schema}
+    else:
+        raise HTTPException(status_code=400, detail="Failed to connect to the database or fetch schema.")
 
 @app.post("/api/generate-sql")
 async def generate_sql(request: PromptRequest):
