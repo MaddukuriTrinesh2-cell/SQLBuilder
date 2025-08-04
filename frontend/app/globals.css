@@ -31,8 +31,9 @@
   * {
     @apply border-border;
   }
-  body {
+  html, body {
     @apply bg-background text-foreground;
+    background-image: linear-gradient(to bottom right, #fed7aa, #f97316, #ea580c);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }

@@ -6,10 +6,17 @@ import { ArrowRight, Loader2 } from 'lucide-react';
 interface PromptInputProps {
   onSubmit: (prompt: string) => void;
   isLoading: boolean;
+  onPromptChange: (prompt: string) => void;
 }
 
-export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
+export default function PromptInput({ onSubmit, isLoading, onPromptChange }: PromptInputProps) {
   const [prompt, setPrompt] = useState('');
+
+  const handlePromptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newPrompt = e.target.value;
+    setPrompt(newPrompt);
+    onPromptChange(newPrompt);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +29,7 @@ export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
     <form onSubmit={handleSubmit} className="relative font-sans">
       <textarea
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={handlePromptChange}
         placeholder="Enter a natural language query... e.g., 'Show me all customers from London with more than 3 orders.'"
         className="w-full h-28 p-4 pr-16 bg-panel border border-border rounded-xl text-foreground placeholder-gray-500 focus:ring-2 focus:ring-primary resize-none"
         disabled={isLoading}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Database, Bot } from 'lucide-react';
+import { Database, Bot, CheckCircle } from 'lucide-react';
 import ConnectModal from './ConnectModal';
 import LLMConnectModal from './LLMConnectModal';
 
@@ -17,17 +17,29 @@ export default function Header({ onConnect, connectionError, isConnecting }: Hea
   const [isLLMModalOpen, setIsLLMModalOpen] = useState(false);
   const [llmError, setLlmError] = useState<string | null>(null);
   const [isConnectingLLM, setIsConnectingLLM] = useState(false);
+  const [isLLMConnected, setIsLLMConnected] = useState(false);
 
-  const handleLLMConnect = async (apiKey: string) => {
+  useEffect(() => {
+    if (localStorage.getItem('llm_api_key')) {
+      setIsLLMConnected(true);
+    }
+  }, []);
+
+  const handleLLMConnect = async (details: { apiKey: string; model: string; apiBaseUrl: string }) => {
     setIsConnectingLLM(true);
     setLlmError(null);
-    if (apiKey) {
+    if (details.apiKey && details.model) {
       // In a real app, you'd send this to your backend to be stored securely
       console.log("LLM API Key saved.");
-      localStorage.setItem('llm_api_key', apiKey);
+      localStorage.setItem('llm_api_key', details.apiKey);
+      localStorage.setItem('llm_model', details.model);
+      if (details.apiBaseUrl) {
+        localStorage.setItem('llm_api_base_url', details.apiBaseUrl);
+      }
+      setIsLLMConnected(true);
       setIsLLMModalOpen(false);
     } else {
-      setLlmError("API key cannot be empty.");
+      setLlmError("API Key and Model are required.");
     }
     setIsConnectingLLM(false);
   };

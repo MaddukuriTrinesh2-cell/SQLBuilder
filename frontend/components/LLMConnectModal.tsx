@@ -35,7 +35,7 @@ export default function LLMConnectModal({ onClose, onConnect, error, isLoading }
             <input type="password" name="apiKey" placeholder="Enter your API Key" value={details.apiKey} onChange={handleChange} className="w-full p-2 bg-secondary border border-border rounded-md text-black focus:ring-2 focus:ring-primary" />
             <input type="text" name="model" placeholder="Model (e.g., gpt-4)" value={details.model} onChange={handleChange} className="w-full p-2 bg-secondary border border-border rounded-md text-black focus:ring-2 focus:ring-primary" />
             <input type="text" name="apiBaseUrl" placeholder="API Base URL (optional)" value={details.apiBaseUrl} onChange={handleChange} className="w-full p-2 bg-secondary border border-border rounded-md text-black focus:ring-2 focus:ring-primary" />
-            {error && <p className="text-sm text-red-400">Error: {error}</p>}
+            {error && <p className="text-sm text-red-400">{error}</p>}
             <button type="submit" disabled={isLoading} className="w-full py-2.5 px-4 bg-orange-500 text-black font-semibold rounded-md hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save Key

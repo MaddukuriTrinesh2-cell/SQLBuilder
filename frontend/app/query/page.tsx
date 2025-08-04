@@ -69,6 +69,7 @@ export default function QueryPage() {
     }
 
     if (prompt.toLowerCase() !== EXAMPLE_PROMPT.toLowerCase() && !localStorage.getItem('llm_api_key')) {
+      setSqlQuery('-- No query generated. Try connecting to an LLM.');
       setIsLLMModalOpen(true);
       return;
     }
@@ -96,6 +97,12 @@ export default function QueryPage() {
       setSqlQuery(`-- Error: ${error.message}`)
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handlePromptChange = (prompt: string) => {
+    if (prompt === '') {
+      setSqlQuery('');
     }
   };
 
@@ -128,8 +135,8 @@ export default function QueryPage() {
           />
         </div>
         <div className="w-3/4 flex flex-col gap-4 min-h-0">
-          <PromptInput onSubmit={handlePromptSubmit} isLoading={isLoading} />
-          <SQLOutput sql={sqlQuery} />
+          <PromptInput onSubmit={handlePromptSubmit} isLoading={isLoading} onPromptChange={handlePromptChange} />
+          <SQLOutput sql={sqlQuery} onSqlChange={setSqlQuery} />
         </div>
       </main>
       {isLLMModalOpen &&

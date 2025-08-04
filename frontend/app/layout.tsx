@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Share_Tech_Mono } from "next/font/google";
+import { Inter, Fira_Code } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
-const shareTechMono = Share_Tech_Mono({ 
+const firaCode = Fira_Code({ 
   subsets: ["latin"], 
-  weight: ["400"],
-  variable: '--font-share-tech-mono'
+  weight: ["400", "500", "600", "700"],
+  variable: '--font-fira-code'
 });
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${shareTechMono.variable} font-mono`}>{children}</body>
+      <body className={`${inter.variable} ${firaCode.variable} font-sans`}>{children}</body>
     </html>
   );
 }

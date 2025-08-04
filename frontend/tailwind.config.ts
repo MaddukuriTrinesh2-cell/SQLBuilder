@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)'],
-        mono: ['var(--font-share-tech-mono)'],
+        mono: ['var(--font-fira-code)'],
       },
       colors: {
         background: 'hsl(var(--background))',

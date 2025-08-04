@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground">
+    <div className="flex flex-col min-h-screen text-foreground">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -76,7 +76,7 @@ export default function Home() {
               initial="hidden"
               animate="visible"
             >
-              <motion.div variants={featureItemVariants} whileHover={{ y: -5 }} className="p-8 border border-border rounded-xl bg-panel/50">
+              <motion.div variants={featureItemVariants} whileHover={{ y: -5 }} className="p-8 border border-white/20 rounded-xl bg-background/80 backdrop-blur-lg shadow-lg">
                 <div className="flex items-center justify-center h-16 w-16 rounded-full bg-orange-500/10 mx-auto mb-6">
                   <Database className="h-8 w-8 text-orange-500" />
                 </div>
@@ -85,7 +85,7 @@ export default function Home() {
                   Navigate your database schema with an intuitive and interactive interface. Understand table relationships at a glance.
                 </p>
               </motion.div>
-              <motion.div variants={featureItemVariants} whileHover={{ y: -5 }} className="p-8 border border-border rounded-xl bg-panel/50">
+              <motion.div variants={featureItemVariants} whileHover={{ y: -5 }} className="p-8 border border-white/20 rounded-xl bg-background/80 backdrop-blur-lg shadow-lg">
                 <div className="flex items-center justify-center h-16 w-16 rounded-full bg-orange-500/10 mx-auto mb-6">
                   <Zap className="h-8 w-8 text-orange-500" />
                 </div>
@@ -94,7 +94,7 @@ export default function Home() {
                   Just describe the data you need in plain English. Our AI will translate it into a precise SQL query in seconds.
                 </p>
               </motion.div>
-              <motion.div variants={featureItemVariants} whileHover={{ y: -5 }} className="p-8 border border-border rounded-xl bg-panel/50">
+              <motion.div variants={featureItemVariants} whileHover={{ y: -5 }} className="p-8 border border-white/20 rounded-xl bg-background/80 backdrop-blur-lg shadow-lg">
                 <div className="flex items-center justify-center h-16 w-16 rounded-full bg-orange-500/10 mx-auto mb-6">
                   <Code className="h-8 w-8 text-orange-500" />
                 </div>
@@ -114,7 +114,7 @@ export default function Home() {
               <h2 className="text-4xl font-bold">Security First</h2>
               <p className="text-gray-600 mt-4 font-sans">Your data privacy is our top priority.</p>
             </div>
-            <div className="max-w-3xl mx-auto text-left border border-border rounded-xl bg-panel/50 p-8">
+            <div className="max-w-3xl mx-auto text-left border border-white/20 rounded-xl bg-background/80 backdrop-blur-lg p-8 shadow-lg">
               <h3 className="text-2xl font-semibold">How we protect your data</h3>
               <p className="text-gray-600 mt-4 font-sans">
                 We understand that connecting your database to an LLM raises security concerns. Here's how we address them:
